@@ -8,10 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { DxButtonModule } from 'devextreme-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {MatRadioModule} from '@angular/material/radio';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 
@@ -29,7 +29,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatCheckboxModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

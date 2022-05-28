@@ -1,0 +1,21 @@
+.close {
+    position: relative;
+    top: -36%;
+    right: -5%;
+    color: rgb(125, 125, 125);
+    cursor: pointer;
+    font-size: smaller !important;
+    
+  }
+
+  
+  .flex-container {
+      display: flex;
+  }
+
+
+
+
+
+
+  

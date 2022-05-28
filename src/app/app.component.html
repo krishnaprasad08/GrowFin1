@@ -1,56 +1,79 @@
 <form>
-  <div class="m-2">
-    <div class="row">
-      <div class="col">
-        <mat-form-field>
-          <span matPrefix>Invoice Status: &nbsp;</span>
-          <mat-select [formControl]="status" multiple>
-            <mat-select-trigger>
-              {{status.value ? status.value[0] : ''}}
-              <span *ngIf="status.value?.length > 1" class="example-additional-selection">
-                (+{{status.value.length - 1}} {{status.value?.length === 2 ? 'other' : 'others'}})
-              </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let payment of paymentList" [value]="payment">{{payment}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <span matPrefix>Current Due and OverDue: &nbsp;</span>
-          <mat-select [formControl]="Dues" multiple>
-            <mat-select-trigger>
-              {{Dues.value ? Dues.value[0] : ''}}
-              <span *ngIf="Dues.value?.length > 1" class="example-additional-selection">
-                (+{{Dues.value.length - 1}} {{Dues.value?.length === 2 ? 'other' : 'others'}})
-              </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let due of DueList" [value]="due">{{due}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+  <div class="ms-1" style="display: flex;">
+    <div tabindex="0" class="me-2" (mouseenter)="popupIn()" (mouseleave)="popupOut()">
+      <mat-icon *ngIf="showpopup" (click)="showStatus()" class="close">highlight_off</mat-icon>
 
-      <div class="col">
-        <button *ngIf="showbutton" mat-raised-button type="button" color="primary" (click)="hideButton()">Custom Button</button>
-        <!-- <mat-form-field *ngIf="showbutton">
-          <mat-select name="countryString" >
-            <mat-option *ngFor="let custom of customList" [value]="due">{{custom}}</mat-option>
-          </mat-select>
-        </mat-form-field> -->
-        <mat-form-field *ngIf="!showbutton">
-          <span matPrefix>Last Responded: &nbsp;</span>
-          <mat-select [formControl]="Dates">
-            <ng-container *ngFor="let property of DateRange">
-              <mat-option [value]="property">
-                <mat-radio-button [value]="property" style="display: block; padding: 12px 12px 12px 32px;">
-                  {{ property }}
-                </mat-radio-button>
-              </mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      <!-- Invoice Field -->
+      <mat-form-field *ngIf="showStat" appearance="outline">
+        <span matPrefix>Invoice Status: &nbsp;</span>
+        <mat-select #matselect [formControl]="status" multiple>
+          <mat-select-trigger>
+            {{status.value ? status.value[0] : ''}}
+            <span *ngIf="status.value?.length > 1">
+              (+{{status.value.length - 1}} {{status.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let payment of paymentList" [value]="payment">{{payment}}</mat-option>
+          <div>
+            <button type="button" (click)="save(matselect)" class="m-2" color="primary" mat-raised-button>
+              SUBMIT
+            </button>
+            <button (click)="close(matselect)" type="button" class="m-2" color="primary" mat-raised-button>
+              CANCEL
+            </button>
+          </div>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+
+    <div class="me-2">
+      <!-- Current Due and OverDue Field -->
+      <mat-form-field appearance="outline">
+        <span matPrefix>Current Due and OverDue: &nbsp;</span>
+        <mat-select [formControl]="Dues" multiple>
+          <mat-select-trigger>
+            {{Dues.value ? Dues.value[0] : ''}}
+            <span *ngIf="Dues.value?.length > 1" class="example-additional-selection">
+              (+{{Dues.value.length - 1}} {{Dues.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let due of DueList" [value]="due">{{due}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-menu #menu="matMenu">
+        <div (click)="selectDropDown(customValue)" *ngFor="let customValue of customList" mat-menu-item>
+          {{customValue}}
+        </div>
+      </mat-menu>
+
+      <!-- Last Responded -->
+      <mat-form-field class="me-1" *ngIf="!showbutton" appearance="outline">
+        <span matPrefix>Last Responded: &nbsp;</span>
+        <mat-select #matSelect1 [formControl]="Dates">
+          <ng-container *ngFor="let date of DateRange">
+            <mat-option [value]="date">
+              <mat-radio-button [value]="date" style="display: block; padding: 12px 12px 12px 32px;">
+                {{ date }}
+              </mat-radio-button>
+            </mat-option>
+          </ng-container>
+          <div>
+            <button type="button" (click)="save(matSelect1)" class="m-2" color="primary" mat-raised-button>
+              SUBMIT
+            </button>
+            <button type="button" (click)="close(matSelect1)" class="m-2" color="primary" mat-raised-button>
+              CANCEL
+            </button>
+          </div>
+        </mat-select>
+      </mat-form-field>
+      <button type="button" class="m-1" color="primary" mat-raised-button [matMenuTriggerFor]="menu">
+        Custom Filters<mat-icon>arrow_drop_down</mat-icon>
+      </button>
     </div>
   </div>
-  <button mat-raised-button type="button" color="primary" (click)="submitForm()">Primary</button>
 </form>
